@@ -6,6 +6,11 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: 'Nunito', sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1rem;
 }
 
 *:focus {
@@ -17,10 +22,6 @@
   background-color: var(--blue-heavy);
   display: flex;
   flex-direction: column;
-  font-family: 'Nunito', sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
-  font-weight: 400;
   min-height: 100vh;
 
   .resume {
@@ -35,7 +36,7 @@
 
     section {
       h2 {
-        background-color: var(--resume-header-bg);
+        background-color: var(--grey-light);
         border: 1px solid rgb(212, 212, 212);
         font-size: 2rem;
         letter-spacing: 1px;
@@ -75,7 +76,7 @@
         }
 
         p:first-child {
-          border-right: 2px solid var(--resume-text);
+          border-right: 2px solid var(--text-dark);
           padding-right: 1rem;
         }
       }
