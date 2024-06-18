@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+import { Dialog } from '@headlessui/react';
 import './contact-section.scss';
 
 export default function ContactSection() {
@@ -8,38 +9,7 @@ export default function ContactSection() {
     phone: '212-555-1234',
     email: 'test@user.com',
   });
-  const [inputs, setInputs] = useState({});
-
-  const ref = useRef(null);
-
-  function handleChange(event) {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
-  }
-
-  function handleEsc(e) {
-    if (e.code === 'Escape') {
-      closeModal();
-    }
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    setContactInfo(inputs);
-    closeModal();
-  }
-
-  function openModal() {
-    ref.current.showModal();
-    setInputs(contactInfo);
-    window.addEventListener('keydown', handleEsc);
-  }
-
-  function closeModal() {
-    ref.current.close();
-    window.removeEventListener('keydown', handleEsc);
-  }
+  const [formOpen, setFormOpen] = useState(false);
 
   return (
     <>
@@ -49,29 +19,66 @@ export default function ContactSection() {
           <p>{contactInfo.email}</p>
           <p>{contactInfo.phone}</p>
         </div>
-        <button className="edit" type="button" onClick={openModal}>
+        <button
+          className="edit"
+          type="button"
+          onClick={() => setFormOpen(true)}
+        >
           Edit
         </button>
       </section>
 
-      <dialog className="contact-modal" ref={ref}>
-        <form onSubmit={handleSubmit}>
-          <h2>Contact Information</h2>
+      {formOpen && (
+        <ContactForm
+          data={contactInfo}
+          handleClose={() => setFormOpen(false)}
+          handleSubmit={(newData) => {
+            setContactInfo(newData);
+            setFormOpen(false);
+          }}
+        />
+      )}
+    </>
+  );
+}
+
+function ContactForm({ data, handleClose, handleSubmit }) {
+  const [inputs, setInputs] = useState(data);
+
+  function handleChange(event) {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  }
+
+  return (
+    <Dialog className="modal-container" open={true} onClose={handleClose}>
+      <div className="modal-backdrop" aria-hidden="true" />
+
+      <Dialog.Panel className="modal-modal">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit(inputs);
+          }}
+        >
+          <Dialog.Title>Edit Contact Info</Dialog.Title>
 
           <label htmlFor="name">Name</label>
           <input
             id="name"
             name="name"
             type="text"
-            value={inputs.name || ''}
+            value={inputs.name}
             onChange={handleChange}
           />
+
           <label htmlFor="email">Email</label>
           <input
             id="email"
             name="email"
             type="text"
-            value={inputs.email || ''}
+            value={inputs.email}
             onChange={handleChange}
           />
 
@@ -80,24 +87,28 @@ export default function ContactSection() {
             id="phone"
             name="phone"
             type="text"
-            value={inputs.phone || ''}
+            value={inputs.phone}
             onChange={handleChange}
           />
 
           <div>
             <button
-              className="save"
+              className="modal-save"
               type="submit"
               disabled={!inputs.name || !inputs.email || !inputs.phone}
             >
               Save
             </button>
-            <button className="cancel" type="button" onClick={closeModal}>
+            <button
+              className="modal-cancel"
+              type="button"
+              onClick={handleClose}
+            >
               Cancel
             </button>
           </div>
         </form>
-      </dialog>
-    </>
+      </Dialog.Panel>
+    </Dialog>
   );
 }

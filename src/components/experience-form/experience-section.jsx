@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+import { Dialog } from '@headlessui/react';
 import './experience-section.scss';
 
 export default function EducationSection() {
@@ -17,45 +18,9 @@ export default function EducationSection() {
       ],
     },
   ]);
-  const [inputs, setInputs] = useState({});
-  const [formTask, setFormTask] = useState('');
-  const [editKey, setEditKey] = useState(0);
-
-  const ref = useRef(null);
-
-  function handleChange(event) {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    const newData = [...experienceInfo];
-    const index = newData.findIndex((exp) => exp.key === editKey);
-    newData[index] = { ...inputs, key: Date.now() };
-    setExperienceInfo(newData);
-    closeModal();
-  }
-
-  function handleEsc(e) {
-    if (e.code === 'Escape') {
-      closeModal();
-    }
-  }
-
-  function openModal(action, experience) {
-    setInputs(experience);
-    setFormTask(action);
-    setEditKey(experience.key || 0);
-    ref.current.showModal();
-    window.addEventListener('keydown', handleEsc);
-  }
-
-  function closeModal() {
-    ref.current.close();
-    window.removeEventListener('keydown', handleEsc);
-  }
+  const [formOpen, setFormOpen] = useState(false);
+  const [task, setTask] = useState('');
+  const [experienceToEdit, setExperienceToEdit] = useState({});
 
   return (
     <>
@@ -76,7 +41,9 @@ export default function EducationSection() {
                 className="edit"
                 type="button"
                 onClick={() => {
-                  openModal('Edit', experience);
+                  setFormOpen(true);
+                  setTask('Edit');
+                  setExperienceToEdit(experience);
                 }}
               >
                 Edit
@@ -92,16 +59,51 @@ export default function EducationSection() {
         </ul>
       </section>
 
-      <dialog className="experience-modal" ref={ref}>
-        <form onSubmit={handleSubmit}>
-          <h2>{formTask} Education Info</h2>
+      {formOpen && (
+        <ExperienceForm
+          data={experienceToEdit}
+          task={task}
+          handleClose={() => setFormOpen(false)}
+          handleSubmit={(newData) => {
+            setExperienceInfo(newData);
+            setFormOpen(false);
+          }}
+        />
+      )}
+    </>
+  );
+}
+
+function ExperienceForm({ data, handleClose, handleSubmit, task }) {
+  const [inputs, setInputs] = useState(data);
+
+  function handleChange(event) {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  }
+
+  console.log(inputs);
+
+  return (
+    <Dialog className="modal-container" open={true} onClose={handleClose}>
+      <div className="modal-backdrop" aria-hidden="true" />
+
+      <Dialog.Panel className="modal-modal">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit(inputs);
+          }}
+        >
+          <Dialog.Title>{task} Experience Info</Dialog.Title>
 
           <label htmlFor="organization">Company or Organization</label>
           <input
             id="organization"
             name="organization"
             type="text"
-            value={inputs.organization || ''}
+            value={inputs.organization}
             onChange={handleChange}
           />
 
@@ -110,50 +112,52 @@ export default function EducationSection() {
             id="tenure"
             name="tenure"
             type="text"
-            value={inputs.tenure || ''}
+            value={inputs.tenure}
             onChange={handleChange}
           />
 
-          <label htmlFor="title">Title</label>
+          <label htmlFor="title">Job Title</label>
           <input
             id="title"
             name="title"
             type="text"
-            value={inputs.title || ''}
+            value={inputs.title}
             onChange={handleChange}
           />
 
-          <p>Duties accomplished</p>
-          <ul>
-            <li>
+          <fieldset>
+            <legend>Job Duties</legend>
+            {inputs.notes.map((note, i) => (
               <textarea
-                rows="1"
+                key={i}
+                id={`note-${i}`}
+                name={`note-${i}`}
                 onChange={(e) => {
                   e.target.style.height = 'auto';
                   e.target.style.height = `${e.target.scrollHeight}px`;
+                  handleChange(e);
+                  console.log(inputs);
                 }}
-              ></textarea>
-              <button className="remove-exp" type="button">
-                x
-              </button>
-            </li>
-            <li>
-              <button className="add-exp" type="button">
-                +
-              </button>
-            </li>
-          </ul>
+              >
+                {note}
+              </textarea>
+            ))}
+          </fieldset>
 
           <div>
-            <button className="save" type="button">
+            <button className="modal-save" type="submit">
               Save
             </button>
-            <button className="cancel" type="button" onClick={closeModal}>
+            <button
+              className="modal--cancel"
+              type="button"
+              onClick={handleClose}
+            >
               Cancel
             </button>
           </div>
         </form>
-      </dialog>
-    </>
+      </Dialog.Panel>
+    </Dialog>
   );
 }

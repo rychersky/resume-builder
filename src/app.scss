@@ -199,3 +199,116 @@
     width: 130px;
   }
 }
+
+.modal-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .modal-backdrop {
+    position: absolute;
+    backdrop-filter: blur(2px);
+    background-color: rgba(0, 0, 0, 0.25);
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .modal-modal {
+    position: relative;
+    z-index: 2;
+
+    form {
+      background-color: var(--blue-medium);
+      border: 8px solid var(--blue-light);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      color: var(--text-light);
+      min-width: 700px;
+
+      h2 {
+        font-size: 3.5rem;
+        text-align: center;
+        border-bottom: 8px solid var(--blue-light);
+        margin-top: -1rem;
+
+        & + label {
+          // first label
+          margin-top: 2rem;
+        }
+      }
+
+      label {
+        font-size: 1rem;
+        margin-top: 0.8rem;
+      }
+
+      input {
+        padding: 0.25rem;
+        color: var(--text-dark);
+      }
+
+      fieldset {
+        margin-top: 0.8rem;
+
+        legend {
+          font-size: 1rem;
+
+          & + textarea {
+            margin-top: initial;
+          }
+        }
+
+        textarea {
+          width: 100%;
+          resize: none;
+          margin-top: 0.75rem;
+          overflow-x: hidden;
+        }
+      }
+
+      fieldset + textarea {
+        margin-top: initial;
+      }
+
+      div {
+        margin-top: 3rem;
+        display: flex;
+        gap: 1rem;
+
+        button {
+          flex: 1;
+          font-size: 1.5rem;
+          padding: 0.5rem;
+          cursor: pointer;
+        }
+
+        .modal-save {
+          background-color: var(--gold-medium);
+          border: 4px solid var(--gold-medium);
+          color: var(--blue-medium);
+          font-weight: 800;
+        }
+
+        .modal-save:disabled {
+          background: none;
+          color: var(--gold-medium);
+          cursor: not-allowed;
+          font-weight: 400;
+        }
+
+        .modal-cancel {
+          background: 0;
+          border: 4px solid var(--grey-light);
+          color: var(--text-light);
+        }
+      }
+    }
+  }
+}

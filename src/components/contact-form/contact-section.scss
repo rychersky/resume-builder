@@ -1,69 +1,81 @@
-.contact-modal {
-  margin: auto;
+// .contact__modal-container {
+//   position: fixed;
+//   top: 0;
+//   bottom: 0;
+//   left: 0;
+//   right: 0;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
 
-  &::backdrop {
-    backdrop-filter: blur(2px);
-    background-color: rgba(0, 0, 0, 0.25);
-  }
+//   .contact__backdrop {
+//     position: absolute;
+//     backdrop-filter: blur(2px);
+//     background-color: rgba(0, 0, 0, 0.25);
+//     width: 100%;
+//     height: 100%;
+//     z-index: 1;
+//   }
 
-  &:focus {
-    outline: 0;
-  }
+//   .contact__modal {
+//     position: relative;
+//     z-index: 2;
 
-  form {
-    background-color: var(--blue-medium);
-    border: 8px solid var(--blue-light);
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    color: var(--text-light);
+//     form {
+//       background-color: var(--blue-medium);
+//       border: 8px solid var(--blue-light);
+//       padding: 2rem;
+//       display: flex;
+//       flex-direction: column;
+//       color: var(--text-light);
 
-    label {
-      font-size: 1rem;
-      margin-top: 0.8rem;
-    }
+//       label {
+//         font-size: 1rem;
+//         margin-top: 0.8rem;
+//       }
 
-    input {
-      padding: 0.25rem;
-      color: var(--text-dark);
-    }
+//       input {
+//         padding: 0.25rem;
+//         color: var(--text-dark);
+//       }
 
-    h2 {
-      font-size: 3rem;
-      border-bottom: 8px solid var(--blue-light);
-    }
+//       h2 {
+//         font-size: 3rem;
+//         border-bottom: 8px solid var(--blue-light);
+//       }
 
-    div {
-      margin-top: 3rem;
-      display: flex;
-      gap: 1rem;
+//       div {
+//         margin-top: 3rem;
+//         display: flex;
+//         gap: 1rem;
 
-      button {
-        flex: 1;
-        font-size: 1.5rem;
-        padding: 0.5rem;
-        cursor: pointer;
-      }
+//         button {
+//           flex: 1;
+//           font-size: 1.5rem;
+//           padding: 0.5rem;
+//           cursor: pointer;
+//         }
 
-      .save {
-        background-color: var(--gold-medium);
-        border: 4px solid var(--gold-light);
-        color: var(--blue-medium);
-        font-weight: 800;
-      }
+//         .contact__save {
+//           background-color: var(--gold-medium);
+//           border: 4px solid var(--gold-light);
+//           color: var(--blue-medium);
+//           font-weight: 800;
+//         }
 
-      .save:disabled {
-        background: none;
-        color: var(--gold-light);
-        cursor: not-allowed;
-        font-weight: 400;
-      }
+//         .contact__save:disabled {
+//           background: none;
+//           color: var(--gold-light);
+//           cursor: not-allowed;
+//           font-weight: 400;
+//         }
 
-      .cancel {
-        background: 0;
-        border: 4px solid var(--grey-light);
-        color: var(--text-light);
-      }
-    }
-  }
-}
+//         .contact__cancel {
+//           background: 0;
+//           border: 4px solid var(--grey-light);
+//           color: var(--text-light);
+//         }
+//       }
+//     }
+//   }
+// }

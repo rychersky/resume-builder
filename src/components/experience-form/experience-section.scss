@@ -27,7 +27,6 @@
 
     label,
     p {
-      font-size: 1rem;
       margin-top: 0.8rem;
     }
 
@@ -37,19 +36,21 @@
       margin-top: 0.25rem;
     }
 
-    ul {
-      list-style-type: none;
+    fieldset {
+      legend {
+        margin-top: 1rem;
+      }
 
-      li {
+      .duty-grouping {
         display: flex;
         gap: 1rem;
 
-        &:first-child {
+        &:nth-child(2) {
           margin-top: 0.25rem;
         }
 
-        &:not(:first-child) {
-          margin-top: 1rem;
+        &:nth-child(n + 3) {
+          margin-top: 0.75rem;
         }
 
         textarea {
@@ -60,29 +61,30 @@
           resize: none;
         }
 
-        button {
-          background: 0;
-          border: 0;
-          cursor: pointer;
-          font-weight: 800;
-          font-size: 1.2rem;
-          width: 2rem;
-          height: fit-content;
-        }
-
         .remove-exp {
           border: 2px solid var(--red-medium);
           color: var(--red-medium);
         }
+      }
 
-        .add-exp {
-          border: 2px solid var(--blue-ultralight);
-          color: var(--blue-ultralight);
-        }
+      button {
+        background: 0;
+        border: 0;
+        cursor: pointer;
+        font-weight: 800;
+        font-size: 1.2rem;
+        width: 2rem;
+        height: fit-content;
+      }
+
+      .add-exp {
+        margin-top: 1rem;
+        border: 2px solid var(--blue-ultralight);
+        color: var(--blue-ultralight);
       }
     }
 
-    div {
+    .form-handlers {
       margin-top: 3rem;
       display: flex;
       gap: 1rem;
